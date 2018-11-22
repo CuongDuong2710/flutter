@@ -25,7 +25,8 @@ void main() {
           child: Container(height: 50.0),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: null,
+          onPressed: () =>
+            print('Hi there!'),
           tooltip: 'Increment',
           child: Icon(Icons.add),
         ),
