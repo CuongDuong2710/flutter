@@ -17,10 +17,14 @@ void main() {
   
   var parsedJson = json.decode(rawJson);
   
-  print(parsedJson); // {url: http://blah.jpg, id: 1}
+  // print(parsedJson); // {url: http://blah.jpg, id: 1}
 
-  print(parsedJson['url']); // http://blah.jpg
-  var imageModel = new ImageModel(parsedJson['id'], parsedJson['url']);
+  // print(parsedJson['url']); // http://blah.jpg
+  
+  //var imageModel = new ImageModel(parsedJson['id'], parsedJson['url']);
+  //print(imageModel.id);
+  
+  var imageModel = new ImageModel.fromJson(parsedJson);
   print(imageModel.id);
 }
 
@@ -28,5 +32,9 @@ class ImageModel {
   int id;
   String url;
   
-  ImageModel(this.id, this.url);
+  // ImageModel(this.id, this.url);
+  ImageModel.fromJson(parsedJson) {
+    id = parsedJson['id'];
+    url = parsedJson['url'];
+  }
 }
