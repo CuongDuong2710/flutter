@@ -57,12 +57,38 @@ HTTP Request with Flutter Future
 import 'dart:async';
 
 main() {
-  print(get('http://abaslwer')); // Instance of '_Future<String>'
+  print('About to fetch data...');
+  get('http://abaslwer')
+  	.then((result) {
+      print(result);
+    });
+	
+// About to fetch data...
+// Got the data!
 }
 
 Future<String> get(String url) {
   return new Future.delayed(
     new Duration(seconds: 3), () {
+      return 'Got the data!';
+    });
+}
+
+------------------
+Aysnc - Await
+
+import 'dart:async';
+
+// when user 'await', I have mark enclosing funtion with 'async' keyword.
+main() async {
+  print('About to fetch data...');
+  var result = await get('http://abaslwer');
+  print(result);
+}
+
+Future<String> get(String url) {
+  return new Future.delayed(
+    new Duration(seconds: 2), () {
       return 'Got the data!';
     });
 }
