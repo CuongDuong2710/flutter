@@ -49,3 +49,20 @@ focus method is expecting a function 'passwordEvent' to be passed in, not return
 That method focus will call our function for us whenever the element receive focus.
 
 https://teamtreehouse.com/community/why-do-we-call-the-functions-without-parentheses-ie
+
+
+=================
+HTTP Request with Flutter Future
+
+import 'dart:async';
+
+main() {
+  print(get('http://abaslwer')); // Instance of '_Future<String>'
+}
+
+Future<String> get(String url) {
+  return new Future.delayed(
+    new Duration(seconds: 3), () {
+      return 'Got the data!';
+    });
+}
