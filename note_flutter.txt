@@ -38,3 +38,14 @@ class ImageModel {
     url = parsedJson['url'];
   }
 }
+
+======================
+WHY WE DON'T USE PARENTHESES () IN FUNCTION?
+
+A function name without the parentheses is a reference to the function.
+
+'$($password).focus(passwordEvent).etc'
+focus method is expecting a function 'passwordEvent' to be passed in, not return of function 'passwordEvent()'.
+That method focus will call our function for us whenever the element receive focus.
+
+https://teamtreehouse.com/community/why-do-we-call-the-functions-without-parentheses-ie

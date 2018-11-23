@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' show get;
 
 class App extends StatefulWidget {
   @override
@@ -10,6 +11,11 @@ class App extends StatefulWidget {
 class AppState extends State {
   int counter = 0;
 
+  void fetchImage() {
+    counter++;
+    get('https://jsonplaceholder.typicode.com/photos/$counter');
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,11 +25,10 @@ class AppState extends State {
         ),
         body: Text('$counter'),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            setState(() {
-              counter++;
-            });
-          },
+          onPressed: fetchImage, // get reference of 'fetchImage' anytime button get pressed
+          /*onPressed: () {
+            fetchImage();
+          },*/
           tooltip: 'Increment',
           child: Icon(Icons.add),
         ),
