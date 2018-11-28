@@ -13,7 +13,7 @@ void main() {
   
   final order = new Order('banana');
   
-  final baker = new StreamTransformer.fromHandlers(
+  final baker = new StreamTransformer.fromHandlers( // baker
   	handleData: (cakeType, sink) {
       if (cakeType == 'chocolate') {
         sink.add(new Cake());
@@ -23,9 +23,15 @@ void main() {
     }
   );
   
-  controller.sink.add(order); // Sink takes and send data to Stream
+  controller.sink.add(order); // Sink takes and send data to Stream - order taker
   
-  controller.stream
+  controller.stream // order inspector
     	.map((order) => order.type)
-    	.transform(baker);
+    	.transform(baker)
+		.listen( // pick up office
+    		(cake) => print('Heres your cake $cake'),
+  			onError: (err) => print(err)
+        );
 }
+
+=> I cant bake that type!!!
