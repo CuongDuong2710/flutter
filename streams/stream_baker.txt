@@ -11,7 +11,7 @@ class Order {
 void main() {
   final controller = new StreamController();
   
-  final order = new Order('banana');
+  final order = new Order('chocolate');
   
   final baker = new StreamTransformer.fromHandlers( // baker
   	handleData: (cakeType, sink) {
@@ -34,4 +34,4 @@ void main() {
         );
 }
 
-=> I cant bake that type!!!
+=> Heres your cake Instance of 'Cake'
