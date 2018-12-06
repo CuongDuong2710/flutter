@@ -1,0 +1,39 @@
+import 'dart:html';
+import 'dart:async';
+
+void main() {
+  final InputElement input = querySelector('input');
+  final DivElement div = querySelector('div');
+  
+  final validator = new StreamTransformer.fromHandlers(
+  	handleData: (inputValue, sink) {
+      if (inputValue.contains('@')) {
+        sink.add(inputValue);
+      } else {
+        sink.addError('Enter a valid email');
+      }
+    }
+  );
+  
+  final validateNotGmail = new StreamTransformer.fromHandlers(
+  	handleData: (inputValue, sink) {
+      if (inputValue.contains('@gmail')) {
+        sink.add(inputValue);
+      } else {
+        sink.addError('Not gmail');
+      }
+    }
+  );
+
+  input.onInput
+    .map((dynamic event) => event.target.value)
+		.transform(validator)
+    .transform(validateNotGmail)
+    .listen(
+  		(value) => div.innerHtml = '',
+    	onError: (err) => div.innerHtml = err
+  	);
+}
+
+// print(event) => Instance of 'Event'
+// dynamic: tell Dart don't worry about type issuses 'event.target.value'
