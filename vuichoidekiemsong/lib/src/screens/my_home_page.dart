@@ -3,9 +3,6 @@ import 'xay_dung_thuong_hieu_ca_nhan.dart';
 import 'lo_copywriter.dart';
 
 class MyHomePage extends StatefulWidget {
-  final String title;
-  MyHomePage({Key key, this.title}) : super(key: key);
-
   @override
   State<StatefulWidget> createState() => new MyHomePageState();
 }
@@ -28,7 +25,7 @@ class MyHomePageState extends State<MyHomePage> {
       getNavItem(Icons.accessibility, "Xây dựng thương hiệu cá nhân",
           XayDungThuongHieuCaNhan.routeName),
       getNavItem(Icons.home, "Home", "/"),
-      getNavItem(Icons.beenhere, "Copywriter", LoCopyWriter.routeName),
+      getNavItem(Icons.beenhere, "Lò Copywriter", LoCopyWriter.routeName),
       aboutChild
     ];
 
