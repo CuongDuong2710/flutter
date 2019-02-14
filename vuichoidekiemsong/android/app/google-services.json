@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "517113075341",
+    "firebase_url": "https://vuichoidekiemsong-38b00.firebaseio.com",
+    "project_id": "vuichoidekiemsong-38b00",
+    "storage_bucket": "vuichoidekiemsong-38b00.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517113075341:android:720d1ded01c4e122",
+        "android_client_info": {
+          "package_name": "cuong.flutter.vuichoidekiemsong"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "517113075341-gcaha9ldnutccc2fsvnmgvf0rf1s12mi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCELwoXyp9DQQ9iIpgFLQo7_NUIFa33rXE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

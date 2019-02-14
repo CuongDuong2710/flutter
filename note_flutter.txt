@@ -1,5 +1,6 @@
 flutter create <name_app>
 flutter run
+flutter create --org com.yourdomain appname
 
 Material icons
 https://material.io/tools/icons/

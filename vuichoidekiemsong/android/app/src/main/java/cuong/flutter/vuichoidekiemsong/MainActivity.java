@@ -1,4 +1,4 @@
-package com.example.vuichoidekiemsong;
+package cuong.flutter.vuichoidekiemsong;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
