@@ -28,10 +28,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>( // listen for updates to the databases and refreshes the list whenever the data changes.
+    return StreamBuilder<QuerySnapshot>(
+      // listen for updates to the databases and refreshes the list whenever the data changes.
       stream: Firestore.instance.collection('baby').snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return LinearProgressIndicator(); // When there's no data, it shows a progress indicator.
+        if (!snapshot.hasData)
+          return LinearProgressIndicator(); // When there's no data, it shows a progress indicator.
         return _buildList(context, snapshot.data.documents);
       },
     );
@@ -48,20 +50,25 @@ class _MyHomePageState extends State<MyHomePage> {
     final record = Record.fromSnapshot(data);
 
     return Padding(
-      key: ValueKey(record.name),
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(5.0)
-        ),
-        child: ListTile(
-          title: Text(record.name),
-          trailing: Text(record.votes.toString()),
-          onTap: () => record.reference.updateData({'votes': record.votes + 1}),
-        ),
-      )
-    );
+        key: ValueKey(record.name),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        child: Container(
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(5.0)),
+            child: ListTile(
+              title: Text(record.name),
+              trailing: Text(record.votes.toString()),
+              onTap: () =>
+                  Firestore.instance.runTransaction((transaction) async {
+                    final freshSnapshot =
+                        await transaction.get(record.reference);
+                    final fresh = Record.fromSnapshot(freshSnapshot);
+
+                    await transaction
+                        .update(record.reference, {'votes': fresh.votes + 1});
+                  }),
+            )));
   }
 }
 
@@ -71,13 +78,13 @@ class Record {
   final DocumentReference reference;
 
   Record.fromMap(Map<String, dynamic> map, {this.reference})
-    : assert(map['name'] != null),
-      assert(map['votes'] != null),
-      name = map['name'],
-      votes = map['votes'];
+      : assert(map['name'] != null),
+        assert(map['votes'] != null),
+        name = map['name'],
+        votes = map['votes'];
 
   Record.fromSnapshot(DocumentSnapshot snapshot)
-    : this.fromMap(snapshot.data, reference: snapshot.reference);
+      : this.fromMap(snapshot.data, reference: snapshot.reference);
 
   @override
   String toString() => "Record<$name:$votes>";
