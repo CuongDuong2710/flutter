@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'screens/my_home_page.dart';
-import 'screens/xay_dung_thuong_hieu_ca_nhan.dart';
-import 'screens/lo_copywriter.dart';
+import 'screens/myhomepage.dart';
+import 'screens/xaydungthuonghieucanhan.dart';
+import 'screens/locopywriter.dart';
 
 class App extends StatelessWidget {
   final appTitle = 'Vui chơi để kiếm sống';
