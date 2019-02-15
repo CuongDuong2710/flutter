@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'xaydungthuonghieucanhan.dart';
 import 'locopywriter.dart';
+import 'danhsachbaiviet.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -24,10 +25,10 @@ class MyHomePageState extends State<MyHomePage> {
 
     var myNavChildren = [
       headerChild,
-      _getNavItem(Icons.accessibility, "Xây dựng thương hiệu cá nhân",
-          XayDungThuongHieuCaNhan.routeName),
       _getNavItem(Icons.home, "Home", "/"),
       _getNavItem(Icons.beenhere, "Lò Copywriter", LoCopyWriter.routeName),
+      _getNavItem(Icons.accessibility, "Xây dựng thương hiệu cá nhân",
+          XayDungThuongHieuCaNhan.routeName),
       aboutChild
     ];
 
@@ -79,36 +80,38 @@ class MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
-    final record = Record.fromSnapshot(data);
+    final category = Category.fromSnapshot(data);
 
     return Padding(
-      key: ValueKey(record.id),
+      key: ValueKey(category.id),
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey),
           borderRadius: BorderRadius.circular(5.0)),
         child: ListTile(
-          title: Text(record.name),
-          onTap: () => record.toString(),
+          title: Text(category.name),
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => DanhSachBaiViet(categoryId: category.id)));
+          },
         ),
         ),
       );
   }
 }
 
-class Record {
+class Category {
   final String id;
   final String name;
   final DocumentReference reference;
 
-  Record.fromMap(Map<String, dynamic> map, {this.reference})
+  Category.fromMap(Map<String, dynamic> map, {this.reference})
     : assert(map['id'] != null),
       assert(map['name'] != null),
       id = map['id'],
       name = map['name'];
 
-  Record.fromSnapshot(DocumentSnapshot snapshot)
+  Category.fromSnapshot(DocumentSnapshot snapshot)
     : this.fromMap(snapshot.data, reference: snapshot.reference);
 
   @override
