@@ -1,30 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../entity/category.dart';
+import '../entity/post.dart';
 
 class DanhSachBaiViet extends StatefulWidget {
-  final String categoryId;
+  final Category category;
 
-  DanhSachBaiViet({Key key, @required this.categoryId}) : super(key: key);
+  DanhSachBaiViet({Key key, @required this.category}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return new DanhSachBaiVietState(categoryId);
+    return new DanhSachBaiVietState(category);
   }
 }
 
 class DanhSachBaiVietState extends State<DanhSachBaiViet> {
   final String title = "Danh sách bài viết";
-  final String categoryId;
+  final Category category;
 
-  DanhSachBaiVietState(this.categoryId);
+  DanhSachBaiVietState(this.category);
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text(title),
+        title: new Text(category.name),
       ),
-      body: _buildBody(context, categoryId),
+      body: _buildBody(context, category.id),
     );
   }
 
@@ -63,33 +65,5 @@ class DanhSachBaiVietState extends State<DanhSachBaiViet> {
         ),
       ),
     );
-  }
-
-
-}
-
-class Post {
-  final String id;
-  final String categoryId;
-  final String title;
-  final String content;
-  final DocumentReference reference;
-
-  Post.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['id'] != null),
-        assert(map['categoryId'] != null),
-        assert(map['title'] != null),
-        assert(map['content'] != null),
-        id = map['id'],
-        categoryId = map['categoryId'],
-        title = map['title'],
-        content = map['content'];
-
-  Post.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data, reference: snapshot.reference);
-
-  @override
-  String toString() {
-    return "Post<$title>";
   }
 }
