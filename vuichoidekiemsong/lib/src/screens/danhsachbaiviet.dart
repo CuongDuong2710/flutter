@@ -24,13 +24,13 @@ class DanhSachBaiVietState extends State<DanhSachBaiViet> {
       appBar: new AppBar(
         title: new Text(title),
       ),
-      body: _buildBody(context),
+      body: _buildBody(context, categoryId),
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context, String categoryId) {
     return StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance.collection('post').snapshots(),
+        stream: Firestore.instance.collection('post').where("categoryId", isEqualTo: categoryId).snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return LinearProgressIndicator();
