@@ -64,13 +64,11 @@ class MyHomePageState extends State<MyHomePage> {
 
   Widget _buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('category').snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData)
-          return LinearProgressIndicator();
-        return _buildList(context, snapshot.data.documents);
-      }
-    );
+        stream: Firestore.instance.collection('category').snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return LinearProgressIndicator();
+          return _buildList(context, snapshot.data.documents);
+        });
   }
 
   Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
@@ -88,16 +86,18 @@ class MyHomePageState extends State<MyHomePage> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(5.0)),
+            border: Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.circular(5.0)),
         child: ListTile(
           title: Text(category.name),
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => DanhSachBaiViet(category: category)));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DanhSachBaiViet(category: category)));
           },
         ),
-        ),
-      );
+      ),
+    );
   }
 }
-
