@@ -2,23 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../entity/category.dart';
 import '../entity/post.dart';
+import 'detailpostpage.dart';
 
-class DanhSachBaiViet extends StatefulWidget {
+class PostListPage extends StatefulWidget {
   final Category category;
 
-  DanhSachBaiViet({Key key, @required this.category}) : super(key: key);
+  PostListPage({Key key, @required this.category}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return new DanhSachBaiVietState(category);
+    return new PostListPageState(category);
   }
 }
 
-class DanhSachBaiVietState extends State<DanhSachBaiViet> {
+class PostListPageState extends State<PostListPage> {
   final String title = "Danh sách bài viết";
   final Category category;
 
-  DanhSachBaiVietState(this.category);
+  PostListPageState(this.category);
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +33,14 @@ class DanhSachBaiVietState extends State<DanhSachBaiViet> {
 
   Widget _buildBody(BuildContext context, String categoryId) {
     return StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance.collection('post').where("categoryId", isEqualTo: categoryId).snapshots(),
+        stream: Firestore.instance
+            .collection('post')
+            .where("categoryId", isEqualTo: categoryId)
+            .snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData)
-            return LinearProgressIndicator();
+          if (!snapshot.hasData) return LinearProgressIndicator();
           return _buildList(context, snapshot.data.documents);
-        }
-    );
+        });
   }
 
   Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
@@ -60,9 +62,11 @@ class DanhSachBaiVietState extends State<DanhSachBaiViet> {
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: ListTile(
-          title: Text(post.title),
-          onTap: () => print("post $post"),
-        ),
+            title: Text(post.title),
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DetailPostPage(post: post)))),
       ),
     );
   }

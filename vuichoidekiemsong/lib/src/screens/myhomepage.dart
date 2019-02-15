@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'xaydungthuonghieucanhan.dart';
 import 'locopywriter.dart';
-import 'danhsachbaiviet.dart';
+import 'postlistpage.dart';
 import '../entity/category.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -94,7 +94,7 @@ class MyHomePageState extends State<MyHomePage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => DanhSachBaiViet(category: category)));
+                    builder: (context) => PostListPage(category: category)));
           },
         ),
       ),
