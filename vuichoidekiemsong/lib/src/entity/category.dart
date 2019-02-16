@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Category {
-  final String id;
-  final String name;
-  final String image;
-  final DocumentReference reference;
+  String id;
+  String name;
+  String image;
+  DocumentReference reference;
+
+  Category(this.id, this.name, this.image);
 
   Category.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['id'] != null),

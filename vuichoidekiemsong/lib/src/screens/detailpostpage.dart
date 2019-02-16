@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../entity/post.dart';
 
 class DetailPostPage extends StatefulWidget {
@@ -29,7 +28,7 @@ class DetailPostPageState extends State<DetailPostPage> {
         child: new SingleChildScrollView(
             child: new Column(
           children: <Widget>[
-            new Image(image: new AssetImage('assets/person.png')),
+            getImageFromNetwork(post.image),
             Text(
               post.content,
               textAlign: TextAlign.center,
@@ -39,5 +38,14 @@ class DetailPostPageState extends State<DetailPostPage> {
         )),
       ),
     );
+  }
+
+  Image getImageFromNetwork(String link) {
+    Image image;
+    if (link != null && link.isNotEmpty)
+      image = new Image.network(link);
+    else
+      image = new Image(image: new AssetImage('assets/person.png'));
+    return image;
   }
 }
