@@ -63,6 +63,10 @@ class PostListPageState extends State<PostListPage> {
         ),
         child: ListTile(
             title: Text(post.title),
+            leading: CircleAvatar(
+              backgroundColor: Colors.blue,
+              child: Image.network(post.image),
+            ),
             onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(

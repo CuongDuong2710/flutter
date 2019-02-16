@@ -90,6 +90,10 @@ class MyHomePageState extends State<MyHomePage> {
             borderRadius: BorderRadius.circular(5.0)),
         child: ListTile(
           title: Text(category.name),
+          leading: CircleAvatar(
+            backgroundColor: Colors.blue,
+            child: Image.network(category.image),
+          ),
           onTap: () {
             Navigator.push(
                 context,

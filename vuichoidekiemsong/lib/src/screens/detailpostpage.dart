@@ -27,12 +27,16 @@ class DetailPostPageState extends State<DetailPostPage> {
       body: new Padding(
         padding: EdgeInsets.all(10.0),
         child: new SingleChildScrollView(
-          child: Text(
-            post.content,
-            textAlign: TextAlign.center,
-            style: TextStyle(height: 1.5, fontSize: 15.0),
-          ),
-        ),
+            child: new Column(
+          children: <Widget>[
+            new Image(image: new AssetImage('assets/person.png')),
+            Text(
+              post.content,
+              textAlign: TextAlign.center,
+              style: TextStyle(height: 1.5, fontSize: 20.0),
+            ),
+          ],
+        )),
       ),
     );
   }
