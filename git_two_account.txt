@@ -1,0 +1,61 @@
+---- CREATE SSH KEYGEN ----
+
+ssh-keygen -t rsa -C "cuongduongngocquoc@gmail.com" -f "id_rsa_personal_user1"
+
+---- REGISTER WITH SSH AGENT ----
+
+cd ~/.ssh
+
+eval `ssh-agent -s`
+ssh-add ~/.ssh/id_rsa ssh-add ~/.ssh/id_rsa_personal_user1
+
+---- CONFIG USERNAME & EMAIL ----
+
+git config user.name "CuongDuong2710"   // Updates git config user name
+git config user.email "cuongduongngocquoc@gmail.com"
+
+---- CREATE CONFIG FILE ----
+
+#### Tài khoản cá nhân, config mặc định
+Host github.com
+HostName github.com
+User git
+IdentityFile ~/.ssh/id_rsa
+
+#### Tài khoản công việc
+Host github-work_titan
+HostName github.com
+User git
+IdentityFile ~/.ssh/id_rsa_work_titan
+
+#### Tài khoản gmail ca nhan
+Host github-personal_user1
+HostName github.com
+User git
+IdentityFile ~/.ssh/id_rsa_personal_user1
+
+-------------------------------------
+git clone git@github.com-personal_user1:personal_user1/test_two_account.git
+
+clip < ~/.ssh/id_rsa_personal_user1.pub
+
+
+------- CHANGE NAME OF LINK GITHUB -----------
+git remote add origin git@github-personal_user1:CuongDuong2710/test_two_account.git
+
+git remote add origin git@github.com:cuongdnq2710/test.git
+
+------------------
+Handle
+
+1. Clone repository
+2. Add remote with other name
+
+> git remote add test git@github-personal_user1:CuongDuong2710/smart_brain_api.git
+
+3. push with other name 
+
+> git push -u test master
+
+----- DELETE REMOTE -----
+git remote rm <name-of-remote>
