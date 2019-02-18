@@ -1,0 +1,13 @@
+import 'dart:async';
+
+void main() {
+  final bloc = new Bloc();
+  
+  bloc.emailController.sink.add('My new email');
+  
+  bloc.emailController.stream.listen((value) => print(value));
+}
+
+class Bloc {
+  final emailController = StreamController<String>();
+}
