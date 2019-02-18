@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'screens/myhomepage.dart';
-import 'screens/xaydungthuonghieucanhan.dart';
-import 'screens/locopywriter.dart';
+import 'screens/postlistpage.dart';
+import 'entity/category.dart';
+import 'constant/constant.dart';
 
 class App extends StatelessWidget {
-  final appTitle = 'Vui chơi để kiếm sống';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: appTitle,
+      title: Constant.appTitle,
       home: MyHomePage(),
       routes: <String, WidgetBuilder> {
         // define the routes
-        XayDungThuongHieuCaNhan.routeName: (BuildContext context) => new XayDungThuongHieuCaNhan(),
-        LoCopyWriter.routeName: (BuildContext context) => new LoCopyWriter()
+        Constant.VuiChoiDeKiemSongRouteName: (BuildContext context) => new PostListPage(category: new Category("1", "Vui chơi để kiếm sống", "")),
+        Constant.XayDungThuongHieuCaNhanRouteName: (BuildContext context) => new PostListPage(category: new Category("2", "Xây dựng thương hiệu cá nhân", "")),
+        Constant.LoCopyWriterRouteName: (BuildContext context) => new PostListPage(category: new Category("3", "Lò Copywriter", ""))
       },
     );
   }

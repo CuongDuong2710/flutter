@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'xaydungthuonghieucanhan.dart';
-import 'locopywriter.dart';
 import 'postlistpage.dart';
 import '../entity/category.dart';
+import '../constant/constant.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -27,9 +26,10 @@ class MyHomePageState extends State<MyHomePage> {
     var myNavChildren = [
       headerChild,
       _getNavItem(Icons.home, "Home", "/"),
-      _getNavItem(Icons.beenhere, "Lò Copywriter", LoCopyWriter.routeName),
+      _getNavItem(Icons.beenhere, "Lò Copywriter", Constant.LoCopyWriterRouteName),
+      _getNavItem(Icons.ac_unit, "Vui chơi để kiếm sống", Constant.VuiChoiDeKiemSongRouteName),
       _getNavItem(Icons.accessibility, "Xây dựng thương hiệu cá nhân",
-          XayDungThuongHieuCaNhan.routeName),
+          Constant.XayDungThuongHieuCaNhanRouteName),
       aboutChild
     ];
 
@@ -90,6 +90,10 @@ class MyHomePageState extends State<MyHomePage> {
             borderRadius: BorderRadius.circular(5.0)),
         child: ListTile(
           title: Text(category.name),
+          leading: CircleAvatar(
+            backgroundColor: Colors.blue,
+            child: Image.network(category.image),
+          ),
           onTap: () {
             Navigator.push(
                 context,
