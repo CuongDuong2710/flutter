@@ -30,6 +30,7 @@ class MyHomePageState extends State<MyHomePage> {
       _getNavItem(Icons.ac_unit, "Vui chơi để kiếm sống", Constant.VuiChoiDeKiemSongRouteName),
       _getNavItem(Icons.accessibility, "Xây dựng thương hiệu cá nhân",
           Constant.XayDungThuongHieuCaNhanRouteName),
+      _getNavItem(Icons.add, "Đăng bài viết", "/admin"),
       aboutChild
     ];
 
