@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../entity/post.dart';
 
 class PostContent extends StatefulWidget {
   @override
@@ -8,12 +12,15 @@ class PostContent extends StatefulWidget {
 }
 
 class PostContentState extends State<PostContent> {
+  StreamSubscription<DocumentSnapshot> subscription;
+  final CollectionReference collectionReference =
+      Firestore.instance.collection("post");
+
   List _categories = [
     "Vui chơi kiếm sống",
     "Xây dựng thương hiệu cá nhân",
     "Lò Copywriter"
   ];
-
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   String _seletectedFruit;
 
@@ -40,9 +47,24 @@ class PostContentState extends State<PostContent> {
     });
   }
 
+  void _add() {
+    Map<String, String> data = <String, String>{
+      "categoryId": "2",
+      "id": "",
+      "title": "New Content",
+      "content": "This is new content bla bla bla",
+      "image": ""
+    };
+    collectionReference
+        .document()
+        .setData(data)
+        .whenComplete(() => print("add successfully"));
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: new AppBar(
         title: new Text('Admin'),
       ),
@@ -103,6 +125,8 @@ class PostContentState extends State<PostContent> {
 
   Widget buttonField() {
     return RaisedButton(
-        textColor: Colors.blue, child: Text('Đăng bài viết'), onPressed: () {});
+        textColor: Colors.blue,
+        child: Text('Đăng bài viết'),
+        onPressed: () => _add());
   }
 }
