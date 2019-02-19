@@ -64,11 +64,12 @@ class PostContentState extends State<PostContent> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      resizeToAvoidBottomPadding: false,
       appBar: new AppBar(
         title: new Text('Admin'),
       ),
-      body: _buildBody(context),
+      body: SingleChildScrollView(
+        child: _buildBody(context),
+      )
     );
   }
 
@@ -117,6 +118,7 @@ class PostContentState extends State<PostContent> {
   Widget contentField(BuildContext context) {
     return TextField(
       keyboardType: TextInputType.multiline,
+      maxLines: 5,
       decoration: InputDecoration(hintText: 'Nội dung', labelText: 'Nội dung'),
     );
   }
