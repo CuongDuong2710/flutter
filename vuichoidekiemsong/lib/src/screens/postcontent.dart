@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../entity/category.dart';
-import '../entity/post.dart';
 
 class PostContent extends StatefulWidget {
   @override
