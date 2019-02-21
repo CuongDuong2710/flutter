@@ -6,6 +6,7 @@ import 'screens/myhomepage.dart';
 import 'screens/postlistpage.dart';
 import 'screens/postcontent.dart';
 import 'screens/authentication/signuppage.dart';
+import 'screens/authentication/loginpage.dart';
 
 class App extends StatelessWidget {
 
@@ -13,7 +14,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: Constant.appTitle,
-      home: SignUpPage(),
+      home: LoginPage(),
       routes: <String, WidgetBuilder> {
         // define the routes
         Constant.VuiChoiDeKiemSongRouteName: (BuildContext context) => new PostListPage(category: new Category("1", "Vui chơi để kiếm sống", "")),
