@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'postlistpage.dart';
 import '../entity/category.dart';
 import '../constant/constant.dart';
+import '../services/usermanagement.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -12,8 +14,12 @@ class MyHomePage extends StatefulWidget {
 
 class MyHomePageState extends State<MyHomePage> {
   final String title = "Vui chơi để kiếm sống";
+  bool isSignedIn = UserManagement.isSignedIn();
 
   Drawer _getNavDrawer(BuildContext context) {
+
+    print('isSignedIn - $isSignedIn');
+
     var headerChild = new DrawerHeader(child: new Text(title));
     var aboutChild = new AboutListTile(
       child: new Text("About"),
@@ -23,6 +29,34 @@ class MyHomePageState extends State<MyHomePage> {
       icon: new Icon(Icons.info),
     );
 
+    var postContentChild = new ListTile(
+      leading: Icon(Icons.add),
+      title: new Text("Đăng bài viết"),
+      onTap: () {
+        Navigator.of(context).pushReplacementNamed('/admin');
+      },
+    );
+
+    var logInChild = new ListTile(
+      leading: Icon(Icons.desktop_mac),
+      title: new Text("Đăng nhập"),
+      onTap: () {
+        Navigator.of(context).pushReplacementNamed('/login');
+      },
+    );
+
+    var logOutChild = new ListTile(
+      leading: Icon(Icons.directions_walk),
+      title: new Text("Đăng xuất"),
+      onTap: () {
+        FirebaseAuth.instance.signOut().then((value) => {
+          Navigator.of(context).pushReplacementNamed('/login')
+        }).catchError((e) {
+          print(e);
+        });
+      },
+    );
+
     var myNavChildren = [
       headerChild,
       _getNavItem(Icons.home, "Home", "/"),
@@ -30,7 +64,8 @@ class MyHomePageState extends State<MyHomePage> {
       _getNavItem(Icons.ac_unit, "Vui chơi để kiếm sống", Constant.VuiChoiDeKiemSongRouteName),
       _getNavItem(Icons.accessibility, "Xây dựng thương hiệu cá nhân",
           Constant.XayDungThuongHieuCaNhanRouteName),
-      _getNavItem(Icons.add, "Đăng bài viết", "/admin"),
+      postContentChild,
+      isSignedIn ? logOutChild : logInChild,
       aboutChild
     ];
 

@@ -22,7 +22,8 @@ class App extends StatelessWidget {
         Constant.LoCopyWriterRouteName: (BuildContext context) => new PostListPage(category: new Category("3", "Lò Copywriter", "")),
         "/admin": (BuildContext context) => new PostContent(),
         "/signup": (BuildContext context) => new SignUpPage(),
-        "/homepage": (BuildContext context) => new MyHomePage()
+        "/homepage": (BuildContext context) => new MyHomePage(),
+        "/login": (BuildContext context) => new LoginPage()
       },
     );
   }

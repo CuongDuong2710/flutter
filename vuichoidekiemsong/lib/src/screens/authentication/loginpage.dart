@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../services/usermanagement.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -12,8 +13,11 @@ class LoginPageState extends State<LoginPage> {
   String _email;
   String _password;
 
+  bool isSignedIn = UserManagement.isSignedIn();
+
   @override
   Widget build(BuildContext context) {
+    print('login > isSignedIn: $isSignedIn');
     return new Scaffold(
       body: Center(
         child: Container(
