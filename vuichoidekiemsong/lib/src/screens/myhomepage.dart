@@ -50,8 +50,8 @@ class MyHomePageState extends State<MyHomePage> {
       leading: Icon(Icons.directions_walk),
       title: new Text("Đăng xuất"),
       onTap: () {
-        FirebaseAuth.instance.signOut().then((value) => {
-          Navigator.of(context).pushReplacementNamed('/login')
+        FirebaseAuth.instance.signOut().then((value) {
+          Navigator.of(context).pushReplacementNamed('/login');
         }).catchError((e) {
           print(e);
         });

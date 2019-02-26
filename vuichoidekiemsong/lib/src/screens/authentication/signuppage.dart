@@ -47,7 +47,7 @@ class SignUpPageState extends State<SignUpPage> {
                   color: Colors.blue,
                   textColor: Colors.white,
                   elevation: 7.0,
-                  onPressed: () => {
+                  onPressed: () {
                         FirebaseAuth.instance
                             .createUserWithEmailAndPassword(
                                 email: _email, password: _password)
@@ -56,7 +56,7 @@ class SignUpPageState extends State<SignUpPage> {
                           UserManagement().storeNewUser(signedUser, context);
                         }).catchError((onError) {
                           print(onError);
-                        })
+                        });
                       })
             ],
           ),

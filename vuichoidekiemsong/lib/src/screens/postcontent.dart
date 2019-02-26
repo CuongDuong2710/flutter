@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:path/path.dart';
 
 import '../entity/category.dart';
 
@@ -19,6 +21,7 @@ class PostContentState extends State<PostContent> {
   final contentTextController = TextEditingController();
 
   File _image;
+  String _fileName;
 
   final CollectionReference collectionReference =
       Firestore.instance.collection("post");
@@ -44,6 +47,9 @@ class PostContentState extends State<PostContent> {
 
     setState(() {
       _image = image;
+      _fileName = basename(_image.path);
+      print('_image.path: $_image.path');
+      print('_fileName: $_fileName');
     });
   }
 
@@ -67,11 +73,12 @@ class PostContentState extends State<PostContent> {
   void _add(String categoryId, String title, String content) async {
     // upload image to firestore
     final StorageReference storageReference =
-        FirebaseStorage.instance.ref().child('myimage.jpg');
+        FirebaseStorage.instance.ref().child(_fileName);
     final StorageUploadTask task = storageReference.putFile(_image);
 
-    var url = await storageReference.getDownloadURL() as String;
-    print('url ${url}');
+    var downUrl = await (await task.onComplete).ref.getDownloadURL();
+    var url = downUrl.toString();
+    print('url>>> ${url}');
 
     Map<String, String> data = <String, String>{
       "categoryId": categoryId,
@@ -175,30 +182,4 @@ class PostContentState extends State<PostContent> {
         onPressed: () => _add(_seletectedCategory, titleTextController.text,
             contentTextController.text));
   }
-
-  /* Future<String> photoOption() async {
-    try {
-      DateTime now = new DateTime.now();
-      var datestamp = new DateFormat("yyyyMMdd'T'HHmmss");
-      String currentdate = datestamp.format(now);
-      File imageFile = await ImagePicker.pickImage();
-
-      StorageReference ref = FirebaseStorage.instance
-          .ref()
-          .child("images")
-          .child("$currentdate.jpg");
-      StorageUploadTask uploadTask = ref.putFile(imageFile);
-
-      Uri downloadUrl = (await uploadTask.future).downloadUrl;
-      addUser.downloadablelink = downloadUrl.toString();
-
-      downloadableUrl = downloadUrl.toString();
-
-      print(downloadableUrl);
-    } catch (error) {
-      print(error);
-    }
-
-    return downloadableUrl;
-  } */
 }

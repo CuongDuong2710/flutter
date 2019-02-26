@@ -50,7 +50,7 @@ class LoginPageState extends State<LoginPage> {
                   color: Colors.blue,
                   textColor: Colors.white,
                   elevation: 7.0,
-                  onPressed: () => {
+                  onPressed: () {
                         FirebaseAuth.instance
                             .signInWithEmailAndPassword(
                                 email: _email, password: _password)
@@ -59,7 +59,7 @@ class LoginPageState extends State<LoginPage> {
                               .pushReplacementNamed('/homepage');
                         }).catchError((onError) {
                           print(onError);
-                        })
+                        });
                       }),
               SizedBox(
                 height: 15.0,
