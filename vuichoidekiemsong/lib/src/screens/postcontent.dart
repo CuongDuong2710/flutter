@@ -65,9 +65,9 @@ class PostContentState extends State<PostContent> {
   }
 
   void _add(String categoryId, String title, String content) async {
-
     // upload image to firestore
-    final StorageReference storageReference = FirebaseStorage.instance.ref().child('myimage.jpg');
+    final StorageReference storageReference =
+        FirebaseStorage.instance.ref().child('myimage.jpg');
     final StorageUploadTask task = storageReference.putFile(_image);
 
     var url = await storageReference.getDownloadURL() as String;
@@ -82,7 +82,7 @@ class PostContentState extends State<PostContent> {
     };
 
     // set data to firebase database
-     collectionReference
+    collectionReference
         .document()
         .setData(data)
         .whenComplete(() => print("add successfully"));
@@ -155,7 +155,9 @@ class PostContentState extends State<PostContent> {
     return Container(
       child: Column(
         children: <Widget>[
-          _image == null ? Text('No image selected.') : Image.file(_image, height: 300.0, width: 300.0),
+          _image == null
+              ? Text('No image selected.')
+              : Image.file(_image, height: 300.0, width: 300.0),
           RaisedButton(
             textColor: Colors.blue,
             child: Text('Up hình'),
@@ -173,4 +175,30 @@ class PostContentState extends State<PostContent> {
         onPressed: () => _add(_seletectedCategory, titleTextController.text,
             contentTextController.text));
   }
+
+  /* Future<String> photoOption() async {
+    try {
+      DateTime now = new DateTime.now();
+      var datestamp = new DateFormat("yyyyMMdd'T'HHmmss");
+      String currentdate = datestamp.format(now);
+      File imageFile = await ImagePicker.pickImage();
+
+      StorageReference ref = FirebaseStorage.instance
+          .ref()
+          .child("images")
+          .child("$currentdate.jpg");
+      StorageUploadTask uploadTask = ref.putFile(imageFile);
+
+      Uri downloadUrl = (await uploadTask.future).downloadUrl;
+      addUser.downloadablelink = downloadUrl.toString();
+
+      downloadableUrl = downloadUrl.toString();
+
+      print(downloadableUrl);
+    } catch (error) {
+      print(error);
+    }
+
+    return downloadableUrl;
+  } */
 }
