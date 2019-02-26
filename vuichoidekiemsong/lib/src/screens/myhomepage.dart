@@ -33,7 +33,8 @@ class MyHomePageState extends State<MyHomePage> {
       leading: Icon(Icons.add),
       title: new Text("Đăng bài viết"),
       onTap: () {
-        Navigator.of(context).pushReplacementNamed('/admin');
+        Navigator.of(context).pop();
+        Navigator.of(context).pushNamed('/admin');
       },
     );
 

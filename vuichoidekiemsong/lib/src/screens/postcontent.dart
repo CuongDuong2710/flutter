@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../entity/category.dart';
 
@@ -15,7 +18,8 @@ class PostContentState extends State<PostContent> {
   final titleTextController = TextEditingController();
   final contentTextController = TextEditingController();
 
-  StreamSubscription<DocumentSnapshot> subscription;
+  File _image;
+
   final CollectionReference collectionReference =
       Firestore.instance.collection("post");
 
@@ -35,6 +39,14 @@ class PostContentState extends State<PostContent> {
     super.initState();
   }
 
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = image;
+    });
+  }
+
   List<DropdownMenuItem<String>> _buildAndGetDropDownMenuItems(
       List categories) {
     List<DropdownMenuItem<String>> items = new List();
@@ -52,15 +64,25 @@ class PostContentState extends State<PostContent> {
     });
   }
 
-  void _add(String categoryId, String title, String content) {
+  void _add(String categoryId, String title, String content) async {
+
+    // upload image to firestore
+    final StorageReference storageReference = FirebaseStorage.instance.ref().child('myimage.jpg');
+    final StorageUploadTask task = storageReference.putFile(_image);
+
+    var url = await storageReference.getDownloadURL() as String;
+    print('url ${url}');
+
     Map<String, String> data = <String, String>{
       "categoryId": categoryId,
       "id": "",
       "title": title,
       "content": content,
-      "image": ""
+      "image": url // get image url
     };
-    collectionReference
+
+    // set data to firebase database
+     collectionReference
         .document()
         .setData(data)
         .whenComplete(() => print("add successfully"));
@@ -88,8 +110,8 @@ class PostContentState extends State<PostContent> {
           Container(margin: EdgeInsets.only(top: 20.0)),
           contentField(context),
           Container(margin: EdgeInsets.only(top: 20.0)),
+          imageField(context),
           buttonField()
-//          imageField(context)
         ],
       ),
     );
@@ -129,13 +151,26 @@ class PostContentState extends State<PostContent> {
     );
   }
 
-  Widget imageField(BuildContext context) {}
+  Widget imageField(BuildContext context) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          _image == null ? Text('No image selected.') : Image.file(_image, height: 300.0, width: 300.0),
+          RaisedButton(
+            textColor: Colors.blue,
+            child: Text('Up hình'),
+            onPressed: getImage,
+          )
+        ],
+      ),
+    );
+  }
 
   Widget buttonField() {
     return RaisedButton(
         textColor: Colors.blue,
         child: Text('Đăng bài viết'),
-        onPressed: () =>
-            _add(_seletectedCategory, titleTextController.text, contentTextController.text));
+        onPressed: () => _add(_seletectedCategory, titleTextController.text,
+            contentTextController.text));
   }
 }

@@ -14,7 +14,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: Constant.appTitle,
-      home: LoginPage(),
+      home: MyHomePage(),
       routes: <String, WidgetBuilder> {
         // define the routes
         Constant.VuiChoiDeKiemSongRouteName: (BuildContext context) => new PostListPage(category: new Category("1", "Vui chơi để kiếm sống", "")),
