@@ -38,6 +38,15 @@ class MyHomePageState extends State<MyHomePage> {
       },
     );
 
+    var breakingNewsChild = new ListTile(
+      leading: Icon(Icons.add_circle),
+      title: new Text("Tin vắn"),
+      onTap: () {
+        Navigator.of(context).pop();
+        Navigator.of(context).pushNamed('/news');
+      },
+    );
+
     var logInChild = new ListTile(
       leading: Icon(Icons.desktop_mac),
       title: new Text("Đăng nhập"),
@@ -66,6 +75,7 @@ class MyHomePageState extends State<MyHomePage> {
       _getNavItem(Icons.accessibility, "Xây dựng thương hiệu cá nhân",
           Constant.XayDungThuongHieuCaNhanRouteName),
       postContentChild,
+      breakingNewsChild,
       isSignedIn ? logOutChild : logInChild,
       aboutChild
     ];
