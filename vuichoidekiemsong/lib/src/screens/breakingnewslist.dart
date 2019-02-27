@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../entity/news.dart';
+import 'detailbreakingnewspage.dart';
 
 class BreakingNewsList extends StatefulWidget {
   @override
@@ -17,9 +18,7 @@ class BreakingNewsState extends State<BreakingNewsList> {
       appBar: new AppBar(
         title: new Text('Tin vắn'),
       ),
-      body: SingleChildScrollView(
-        child: _buildBody(context),
-      ),
+      body: _buildBody(context),
     );
   }
 
@@ -45,6 +44,10 @@ class BreakingNewsState extends State<BreakingNewsList> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
         child: ListTile(
           title: Text(news.title),
           onTap: () => Navigator.push(
