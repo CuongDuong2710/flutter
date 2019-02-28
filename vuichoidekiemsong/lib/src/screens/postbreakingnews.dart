@@ -1,40 +1,41 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:image_picker/image_picker.dart';
 
-import '../entity/news.dart';
-
-class DetailBreakingNewsPage extends StatefulWidget {
-  final News news;
-
-  DetailBreakingNewsPage({Key key, @required this.news}) : super(key: key);
+class PostBreakingNews extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return new DetailBreakingNewsPageState(news);
+    return new PostBreakingNewsState();
   }
 }
 
-class DetailBreakingNewsPageState extends State<DetailBreakingNewsPage> {
-  final News news;
+class PostBreakingNewsState extends State<PostBreakingNews> {
   VideoPlayerController _controller;
   VoidCallback listener;
 
-  DetailBreakingNewsPageState(this.news);
-
-  @override
-  void initState() {
-    super.initState();
-    listener = () {
-      setState(() {
+  void _onVideoBtnPressed(ImageSource source) {
+    setState(() {
+      if (_controller != null) {
+        _controller.setVolume(0.0);
+        _controller.removeListener(listener);
+      }
+      ImagePicker.pickVideo(source: source).then((File file) {
+        if (file != null && mounted) {
+          setState(() {
+            _controller = VideoPlayerController.file(file)
+              ..addListener(listener)
+              ..setVolume(1.0)
+              ..initialize()
+              ..setLooping(true)
+              ..play();
+          });
+        }
       });
-    };
-
-    _controller = VideoPlayerController.network(news.url)
-      ..addListener(listener)
-      ..setVolume(1.0)
-      ..initialize()
-      ..setLooping(true)
-      ..play();
+    });
   }
 
   @override
@@ -54,15 +55,29 @@ class DetailBreakingNewsPageState extends State<DetailBreakingNewsPage> {
     super.dispose();
   }
 
+  @override
+  void initState() {
+    super.initState();
+    listener = () {
+      setState(() {
+      });
+    };
+  }
+
   Widget _previewVideo(VideoPlayerController controller) {
-    if (controller.value.initialized) {
+    if (controller == null) {
+      return Text(
+        'You have not yet picked a video',
+        textAlign: TextAlign.center,
+      );
+    } else if (controller.value.initialized) {
       return Padding(
         padding: EdgeInsets.all(10.0),
         child: AspectRatioVideo(controller),
       );
     } else {
       return Text(
-        'Loading...',
+        'Error Loading Video',
         textAlign: TextAlign.center,
       );
     }
@@ -72,7 +87,7 @@ class DetailBreakingNewsPageState extends State<DetailBreakingNewsPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
-        title: Text(news.title),
+        title: Text("Đăng video"),
       ),
       body: new Padding(
         padding: EdgeInsets.all(10.0),
@@ -80,11 +95,22 @@ class DetailBreakingNewsPageState extends State<DetailBreakingNewsPage> {
           child: new Column(
             children: <Widget>[
               _previewVideo(_controller),
-              Text(
-                news.title,
-                textAlign: TextAlign.center,
-                style: TextStyle(height: 1.5, fontSize: 20.0),
-              )
+              RaisedButton(
+                child: Text('Chọn video'),
+                textColor: Colors.white,
+                color: Colors.blue,
+                onPressed: () {
+                  _onVideoBtnPressed(ImageSource.gallery);
+                }
+              ),
+              RaisedButton(
+                child: Text('Up video'),
+                textColor: Colors.white,
+                color: Colors.blue,
+                onPressed: () {
+                  
+                }
+              ),
             ],
           ),
         ),

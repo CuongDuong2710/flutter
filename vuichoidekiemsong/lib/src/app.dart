@@ -7,8 +7,8 @@ import 'screens/postlistpage.dart';
 import 'screens/postcontent.dart';
 import 'screens/authentication/signuppage.dart';
 import 'screens/authentication/loginpage.dart';
-import 'screens/video.dart';
 import 'screens/breakingnewslist.dart';
+import 'screens/postbreakingnews.dart';
 
 class App extends StatelessWidget {
 
@@ -27,6 +27,7 @@ class App extends StatelessWidget {
         "/homepage": (BuildContext context) => new MyHomePage(),
         "/login": (BuildContext context) => new LoginPage(),
         "/news": (BuildContext context) => new BreakingNewsList(),
+        "/postnews": (BuildContext context) => new PostBreakingNews()
       },
     );
   }

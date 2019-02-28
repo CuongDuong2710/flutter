@@ -39,7 +39,7 @@ class MyHomePageState extends State<MyHomePage> {
     );
 
     var breakingNewsChild = new ListTile(
-      leading: Icon(Icons.add_circle),
+      leading: Icon(Icons.aspect_ratio),
       title: new Text("Tin vắn"),
       onTap: () {
         Navigator.of(context).pop();
@@ -67,6 +67,15 @@ class MyHomePageState extends State<MyHomePage> {
       },
     );
 
+    var postNewsChild = new ListTile(
+      leading: Icon(Icons.add_comment),
+      title: new Text("Đăng tin vắn"),
+      onTap: () {
+        Navigator.of(context).pop();
+        Navigator.of(context).pushNamed('/postnews');
+      },
+    );
+
     var myNavChildren = [
       headerChild,
       _getNavItem(Icons.home, "Home", "/"),
@@ -74,8 +83,9 @@ class MyHomePageState extends State<MyHomePage> {
       _getNavItem(Icons.ac_unit, "Vui chơi để kiếm sống", Constant.VuiChoiDeKiemSongRouteName),
       _getNavItem(Icons.accessibility, "Xây dựng thương hiệu cá nhân",
           Constant.XayDungThuongHieuCaNhanRouteName),
-      postContentChild,
       breakingNewsChild,
+      postNewsChild,
+      postContentChild,
       isSignedIn ? logOutChild : logInChild,
       aboutChild
     ];
