@@ -16,11 +16,15 @@ class MyHomePageState extends State<MyHomePage> {
   final String title = "Vui chơi để kiếm sống";
   bool isSignedIn = UserManagement.isSignedIn();
 
-  Drawer _getNavDrawer(BuildContext context) {
+  var avatarUrl =
+      'https://firebasestorage.googleapis.com/v0/b/vuichoidekiemsong-38b00.appspot.com/o/avatar_vuichoikiemsong.jpg?alt=media&token=7e9a89cf-5079-4b48-afa8-2b2ca7994bdf';
 
+  Drawer _getNavDrawer(BuildContext context) {
     print('isSignedIn - $isSignedIn');
 
-    var headerChild = new DrawerHeader(child: new Text(title));
+    var headerChild = new DrawerHeader(
+        child: Image.network(avatarUrl, width: 150.0, height: 130.0,)
+    );
     var aboutChild = new AboutListTile(
       child: new Text("About"),
       applicationName: title,
@@ -79,8 +83,10 @@ class MyHomePageState extends State<MyHomePage> {
     var myNavChildren = [
       headerChild,
       _getNavItem(Icons.home, "Home", "/"),
-      _getNavItem(Icons.beenhere, "Lò Copywriter", Constant.LoCopyWriterRouteName),
-      _getNavItem(Icons.ac_unit, "Vui chơi để kiếm sống", Constant.VuiChoiDeKiemSongRouteName),
+      _getNavItem(
+          Icons.beenhere, "Lò Copywriter", Constant.LoCopyWriterRouteName),
+      _getNavItem(Icons.ac_unit, "Vui chơi để kiếm sống",
+          Constant.VuiChoiDeKiemSongRouteName),
       _getNavItem(Icons.accessibility, "Xây dựng thương hiệu cá nhân",
           Constant.XayDungThuongHieuCaNhanRouteName),
       breakingNewsChild,
