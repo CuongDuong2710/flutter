@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:image_picker/image_picker.dart';
 
-class PostBreakingNews extends StatefulWidget {
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
 
+class PostBreakingNews extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return new PostBreakingNewsState();
@@ -16,6 +19,13 @@ class PostBreakingNews extends StatefulWidget {
 class PostBreakingNewsState extends State<PostBreakingNews> {
   VideoPlayerController _controller;
   VoidCallback listener;
+  final titleTextController = TextEditingController();
+
+  File _video;
+  String _fileName;
+
+  final CollectionReference collectionReference =
+      Firestore.instance.collection("news");
 
   void _onVideoBtnPressed(ImageSource source) {
     setState(() {
@@ -25,6 +35,12 @@ class PostBreakingNewsState extends State<PostBreakingNews> {
       }
       ImagePicker.pickVideo(source: source).then((File file) {
         if (file != null && mounted) {
+          _video = file;
+          _fileName = basename(_video.path);
+
+          print('_image.path: $_video.path');
+          print('_fileName: $_fileName');
+
           setState(() {
             _controller = VideoPlayerController.file(file)
               ..addListener(listener)
@@ -59,8 +75,7 @@ class PostBreakingNewsState extends State<PostBreakingNews> {
   void initState() {
     super.initState();
     listener = () {
-      setState(() {
-      });
+      setState(() {});
     };
   }
 
@@ -83,6 +98,14 @@ class PostBreakingNewsState extends State<PostBreakingNews> {
     }
   }
 
+  Widget titleField(BuildContext context) {
+    return TextField(
+      controller: titleTextController,
+      keyboardType: TextInputType.text,
+      decoration: InputDecoration(hintText: 'Tiêu đề', labelText: 'Tiêu đề'),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -94,28 +117,44 @@ class PostBreakingNewsState extends State<PostBreakingNews> {
         child: new SingleChildScrollView(
           child: new Column(
             children: <Widget>[
+              titleField(context),
               _previewVideo(_controller),
               RaisedButton(
-                child: Text('Chọn video'),
-                textColor: Colors.white,
-                color: Colors.blue,
-                onPressed: () {
-                  _onVideoBtnPressed(ImageSource.gallery);
-                }
-              ),
+                  child: Text('Chọn video'),
+                  textColor: Colors.white,
+                  color: Colors.blue,
+                  onPressed: () {
+                    _onVideoBtnPressed(ImageSource.gallery);
+                  }),
               RaisedButton(
-                child: Text('Up video'),
-                textColor: Colors.white,
-                color: Colors.blue,
-                onPressed: () {
-                  
-                }
-              ),
+                  child: Text('Up video'),
+                  textColor: Colors.white,
+                  color: Colors.blue,
+                  onPressed: () {
+                    _addVideo(titleTextController.text);
+                  }),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _addVideo(String title) async {
+    final StorageReference storageReference =
+        FirebaseStorage.instance.ref().child(_fileName);
+    final StorageUploadTask task = storageReference.putFile(_video);
+
+    var downUrl = await (await task.onComplete).ref.getDownloadURL();
+    var url = downUrl.toString();
+    print('url>>> ${url}');
+
+    var data = {"title": title, "url": url};
+
+    collectionReference
+        .document()
+        .setData(data)
+        .whenComplete(() => print("add video successfully"));
   }
 }
 
